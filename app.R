@@ -51,11 +51,11 @@ ui <- navbarPage(
     p("Click the button to analyze panels")
   ),
   tabPanel("Available PanelApp Panels",
-           titlePanel("Selected data"),
+           titlePanel("Available Panels"),
            DT::dataTableOutput("panel_table")
   ),
   tabPanel("Imported genes",
-           titlePanel("Selected Panel Data"),
+           titlePanel("Genes Selected for Analysis"),
            DT::dataTableOutput("gene_table")
   ),
   tabPanel("Network Analysis",
@@ -84,10 +84,10 @@ server <- function(input, output, session) {
   output$gene_table <- DT::renderDataTable({
     # DT::datatable(RV$data[seq_df$genus %in% unlist(input$mychooser[2]),])
     # loop through all selected gene panels
-    for(panel in input$mychooser[1]){
+    #for(panel in input$mychooser[1]){
       
-    }
-    DT::datatable(as.data.frame(panel_list))
+    #}
+    DT::datatable(as.data.frame(input$mychooser[2]))
   })  
     
 }
