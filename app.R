@@ -8,6 +8,7 @@ library(jsonlite)
 library(ggplot2)
 library(plotly)
 library(WebGestaltR)
+library(RCy3)
 
 # Define functions
 
@@ -29,7 +30,9 @@ getPanelGenes <- function(panel_id){
                       panel_id,
                       "/?format=json")
   json_data <- fromJSON(api_query, flatten=TRUE)
-  panel_genes <- json_data$result$Genes$GeneSymbol
+  panel_genes <- tibble(gene_symbol = json_data$result$Genes$GeneSymbol,
+                        evidence = json_data$result$Genes$LevelOfConfidence)  
+  
   return(panel_genes)
 }
 
@@ -85,10 +88,6 @@ server <- function(input, output, session) {
     selected_panels <- panel_list[panel_list$panel_name %in% unlist(input$mychooser[2]),]
     # Use panel_id from selected panels to get panel genes
     selected_genes <- lapply(selected_panels$panel_id, getPanelGenes)
-    # Sort output
-    selected_genes <- sort(unlist(selected_genes))
-    # Remove duplicates
-    selected_genes <- unique(selected_genes)
     # getPanelGenes(panel)
     DT::datatable(as.data.frame(selected_genes))
   })  
