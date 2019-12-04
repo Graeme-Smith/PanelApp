@@ -49,10 +49,10 @@ ui <- navbarPage(
     actionButton("runAll", label="Run Analysis"),
     p("Click the button to analyze panels")
   ),
-  #tabPanel("Data",
-  #         titlePanel("Selected data"),
-  #         DT::dataTableOutput("table")
-  #),
+  tabPanel("Available PanelApp Panels",
+           titlePanel("Selected data"),
+           DT::dataTableOutput("table")
+  ),
   tabPanel("Help",
            "Place html help file here"
   )
@@ -68,7 +68,8 @@ server <- function(input, output, session) {
   
   # Display selected genes in table
   output$table <- DT::renderDataTable({
-    DT::datatable(RV$data[seq_df$genus %in% unlist(input$mychooser[2]),])
+    # DT::datatable(RV$data[seq_df$genus %in% unlist(input$mychooser[2]),])
+    DT::datatable(as.data.frame(panel_list))
   })
   
 }
