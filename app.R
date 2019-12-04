@@ -7,6 +7,7 @@ library(tidyverse)
 library(jsonlite)
 library(ggplot2)
 library(plotly)
+library(WebGestaltR)
 
 # Define functions
 
@@ -82,6 +83,10 @@ server <- function(input, output, session) {
   # Display selected genes in table
   output$gene_table <- DT::renderDataTable({
     # DT::datatable(RV$data[seq_df$genus %in% unlist(input$mychooser[2]),])
+    # loop through all selected gene panels
+    for(panel in input$mychooser[1]){
+      
+    }
     DT::datatable(as.data.frame(panel_list))
   })  
     
