@@ -76,7 +76,6 @@ server <- function(input, output, session) {
   
   # Display selected genes in table
   output$panel_table <- DT::renderDataTable({
-    # DT::datatable(RV$data[seq_df$genus %in% unlist(input$mychooser[2]),])
     DT::datatable(as.data.frame(panel_list))
   })
 
@@ -85,11 +84,13 @@ server <- function(input, output, session) {
 
     selected_panels <- panel_list[panel_list$panel_name %in% unlist(input$mychooser[2]),]
     # Use panel_id from selected panels to get panel genes
-    y <- lapply(selected_panels$panel_id, getPanelGenes)
-    
+    selected_genes <- lapply(selected_panels$panel_id, getPanelGenes)
+    # Sort output
+    selected_genes <- sort(unlist(selected_genes))
+    # Remove duplicates
+    selected_genes <- unique(selected_genes)
     # getPanelGenes(panel)
-
-    DT::datatable(as.data.frame(unlist(y)))
+    DT::datatable(as.data.frame(selected_genes))
   })  
     
 }
