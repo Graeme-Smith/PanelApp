@@ -70,9 +70,9 @@ ui <- navbarPage(
 server <- function(input, output, session) {
   
   # Render selected panel
-  output$selection <- renderPrint({
-    input$mychooser[1]
-  })
+  #output$selection <- renderPrint({
+  #  input$mychooser[1]
+  #})
   
   # Display selected genes in table
   output$panel_table <- DT::renderDataTable({
@@ -82,12 +82,14 @@ server <- function(input, output, session) {
 
   # Display selected genes in table
   output$gene_table <- DT::renderDataTable({
-    # DT::datatable(RV$data[seq_df$genus %in% unlist(input$mychooser[2]),])
-    # loop through all selected gene panels
-    #for(panel in input$mychooser[1]){
-      
-    #}
-    DT::datatable(as.data.frame(input$mychooser[2]))
+
+    selected_panels <- panel_list[panel_list$panel_name %in% unlist(input$mychooser[2]),]
+    # Use panel_id from selected panels to get panel genes
+    y <- lapply(selected_panels$panel_id, getPanelGenes)
+    
+    # getPanelGenes(panel)
+
+    DT::datatable(as.data.frame(unlist(y)))
   })  
     
 }
