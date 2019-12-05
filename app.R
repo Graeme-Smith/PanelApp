@@ -65,6 +65,18 @@ ui <- navbarPage(
   tabPanel("Network Analysis",
            "Place html help file here"
   ),
+  tabPanel("WebGestaltAPI",
+           "Place html help file here"
+  ),
+  tabPanel("HPO Analysis",
+           "Place html help file here"
+  ),
+  tabPanel("GTex Analysis",
+           "Place html help file here"
+  ),
+  tabPanel("Panel Candidates",
+           "Place html help file here"
+  ),
   tabPanel("Help",
            "Place html help file here"
   )
