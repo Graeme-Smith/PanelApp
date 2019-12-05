@@ -70,7 +70,8 @@ ui <- navbarPage(
            "Place html help file here"
   ),
   tabPanel("WebGestalt Table",
-           "Place html help file here"
+           titlePanel("WebGestalt Output"),
+           DT::dataTableOutput("wg_table")
   ),
   tabPanel("HPO Analysis",
            "Place html help file here"
@@ -109,6 +110,16 @@ server <- function(input, output, session) {
     DT::datatable(as.data.frame(selected_genes))
   })  
     
+  # Display WebGestalt output in table
+  output$wg_table <- DT::renderDataTable({
+    
+    selected_panels <- panel_list[panel_list$panel_name %in% unlist(input$mychooser[2]),]
+    # Use panel_id from selected panels to get panel genes
+    selected_genes <- lapply(selected_panels$panel_id, getPanelGenes)
+    outputDirectory <- getwd()
+    DT::datatable(callWebGestalt(unlist(selected_genes), outputDirectory))
+  })  
+
 }
 
 # Run the application 
