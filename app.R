@@ -7,6 +7,7 @@ library(tidyverse)
 library(jsonlite)
 library(ggplot2)
 library(plotly)
+library(igraph)
 library(WebGestaltR)
 library(RCy3)
 
