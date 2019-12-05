@@ -11,6 +11,7 @@ library(plotly)
 library(igraph)
 library(WebGestaltR)
 library(RCy3)
+library(waiter)
 
 # Define functions
 
@@ -121,6 +122,9 @@ server <- function(input, output, session) {
   })  
 
 }
+
+# Currently hardcoded output directory (file written over every time app is run)
+html_temp_file <- paste0(outputDirectory, "/Project_temp_webGestalt/Report_temp_webGestalt.html")
 
 # Run the application 
 shinyApp(ui = ui, server = server)
