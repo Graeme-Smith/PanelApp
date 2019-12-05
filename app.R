@@ -12,6 +12,7 @@ library(igraph)
 library(WebGestaltR)
 library(RCy3)
 library(waiter)
+library(shinycssloaders)
 
 # Define functions
 
@@ -67,12 +68,13 @@ ui <- navbarPage(
   tabPanel("Network Analysis",
            "Place html help file here"
   ),
-  tabPanel("WebGestaltAPI",
-           "Place html help file here"
-  ),
+  # Disabled
+  #tabPanel("WebGestaltAPI",
+  #         "Place html help file here"
+  #),
   tabPanel("WebGestalt Table",
            titlePanel("WebGestalt Output"),
-           DT::dataTableOutput("wg_table")
+           withSpinner(DT::dataTableOutput("wg_table"))
   ),
   tabPanel("HPO Analysis",
            "Place html help file here"
@@ -103,7 +105,6 @@ server <- function(input, output, session) {
 
   # Display selected genes in table
   output$gene_table <- DT::renderDataTable({
-
     selected_panels <- panel_list[panel_list$panel_name %in% unlist(input$mychooser[2]),]
     # Use panel_id from selected panels to get panel genes
     selected_genes <- lapply(selected_panels$panel_id, getPanelGenes)
@@ -113,14 +114,14 @@ server <- function(input, output, session) {
     
   # Display WebGestalt output in table
   output$wg_table <- DT::renderDataTable({
-    
     selected_panels <- panel_list[panel_list$panel_name %in% unlist(input$mychooser[2]),]
     # Use panel_id from selected panels to get panel genes
     selected_genes <- lapply(selected_panels$panel_id, getPanelGenes)
     outputDirectory <- getwd()
-    DT::datatable(callWebGestalt(unlist(selected_genes), outputDirectory))
-  })  
+    wg_tab <- callWebGestalt(unlist(selected_genes), outputDirectory)
+    DT::datatable(wg_tab)
 
+  })  
 }
 
 # Currently hardcoded output directory (file written over every time app is run)
