@@ -4,10 +4,7 @@ library(WebGestaltR)
 geneFile <- system.file("extdata",
                         "interestingGenes.txt",
                         package="WebGestaltR")
-# TODO: Import 'genome' reference data
-refFile <- system.file("extdata",
-                       "referenceGenes.txt",
-                       package="WebGestaltR")
+
 outputDirectory <- getwd()
 enrichResult <- WebGestaltR(enrichMethod="ORA",
                             organism="hsapiens",
