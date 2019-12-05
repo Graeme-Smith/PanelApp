@@ -1,9 +1,10 @@
 library(WebGestaltR)
-# Interface with the WebGestalt API
+# Interface with the WebGestalt API - uses the ORA enrichment method and "genome" reference set
 
 geneFile <- system.file("extdata",
                         "interestingGenes.txt",
                         package="WebGestaltR")
+# TODO: Import 'genome' reference data
 refFile <- system.file("extdata",
                        "referenceGenes.txt",
                        package="WebGestaltR")
@@ -13,7 +14,7 @@ enrichResult <- WebGestaltR(enrichMethod="ORA",
                             enrichDatabase="pathway_KEGG",
                             interestGeneFile=geneFile,
                             interestGeneType="genesymbol",
-                            referenceGeneFile=refFile,
+                            referenceSet= "genome",
                             referenceGeneType="genesymbol",
                             isOutput=TRUE,
                             outputDirectory=outputDirectory,
