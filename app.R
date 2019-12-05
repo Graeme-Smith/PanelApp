@@ -2,6 +2,7 @@
 # Purpose: Interactive Shiny App that allows the user to select multiple PanelApp panels using the 
 # PanelApp API.  Network analysis is then performed to identify 
 source("chooser.R")
+source("webGestaltAPI.R")
 library(shiny)
 library(tidyverse)
 library(jsonlite)
@@ -66,6 +67,9 @@ ui <- navbarPage(
            "Place html help file here"
   ),
   tabPanel("WebGestaltAPI",
+           "Place html help file here"
+  ),
+  tabPanel("WebGestalt Table",
            "Place html help file here"
   ),
   tabPanel("HPO Analysis",
