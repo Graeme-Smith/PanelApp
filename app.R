@@ -3,6 +3,7 @@
 # PanelApp API.  Network analysis is then performed to identify 
 source("chooser.R")
 source("webGestaltAPI.R")
+source("ritan_network.R")
 library(shiny)
 library(tidyverse)
 library(jsonlite)
@@ -13,6 +14,7 @@ library(WebGestaltR)
 library(RCy3)
 library(waiter)
 library(shinycssloaders)
+library(RITAN)
 
 # Define functions
 
@@ -66,7 +68,8 @@ ui <- navbarPage(
            DT::dataTableOutput("gene_table")
   ),
   tabPanel("Network Analysis",
-           "Place html help file here"
+           titlePanel("BioGrid Network for Selected Genes"),
+           withSpinner(DT::dataTableOutput("bioGrid_table"))
   ),
   # Disabled
   #tabPanel("WebGestaltAPI",
@@ -121,8 +124,19 @@ server <- function(input, output, session) {
     wg_tab <- callWebGestalt(unlist(selected_genes), outputDirectory)
     DT::datatable(wg_tab)
 
+  }) 
+  
+  # Display bioGrid Network in table
+  output$bioGrid_table <- DT::renderDataTable({
+    selected_panels <- panel_list[panel_list$panel_name %in% unlist(input$mychooser[2]),]
+    # Use panel_id from selected panels to get panel genes
+    selected_genes <- lapply(selected_panels$panel_id, getPanelGenes)
+    bioGrid_table <- create_network(selected_genes)
+    DT::datatable(bioGrid_table)
   })  
 }
+
+
 
 # Currently hardcoded output directory (file written over every time app is run)
 html_temp_file <- paste0(outputDirectory, "/Project_temp_webGestalt/Report_temp_webGestalt.html")
